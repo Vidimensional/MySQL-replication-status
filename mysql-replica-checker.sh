@@ -62,10 +62,7 @@ if is_replica_ok; then
 else
 
     # If we sent an alert before 1 hour ago, we should send it again
-    if is_lockfile_too_old; then
-        send_alert
-        date +%s > "${LOCKFILE}"
-    fi
+    is_lockfile_too_old && rm -f "${LOCKFILE}"
 
     if ! [ -e ${LOCKFILE} ]; then
         send_alert
