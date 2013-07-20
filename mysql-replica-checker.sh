@@ -43,10 +43,8 @@ send_alert () {
     local subject="Replication problems on ${HOSTNAME}"
     local tmp_mailfile="/tmp/$(basename $0).$(date +%s)"
 
-    echo '<font face="courier new, monospace">' > ${tmp_mailfile}
-    echo "SHOW SLAVE STATUS" | mysql -E | sed 's/$/<br>/g' >> ${tmp_mailfile}
-    echo '<font>' >> ${tmp_mailfile}
-    mail -a 'Content-type: text/html' -s "${subject}" "${EMAIL_ADDRESS}" < ${tmp_mailfile}
+    echo "SHOW SLAVE STATUS" | mysql -E > ${tmp_mailfile}
+    mail -s "${subject}" "${EMAIL_ADDRESS}" < ${tmp_mailfile}
     rm -f ${tmp_mailfile}
 }
 
