@@ -43,8 +43,8 @@ send_alert () {
     local subject="Replication problems on ${HOSTNAME}"
     local tmp_mailfile="/tmp/$(basename $0).$(date +%s)"
 
-    echo "SHOW SLAVE STATUS" | mysql -E > ${tmp_mailfile}
-    mail -s "${subject}" "${EMAIL_ADDRESS}" < ${tmp_mailfile}
+    echo "SHOW SLAVE STATUS" | mysql -E | mail -s "${subject}" "${EMAIL_ADDRESS}" 
+    
     rm -f ${tmp_mailfile}
 }
 
